@@ -90,7 +90,7 @@
   $('#savedSearch').addEventListener('input',renderSaved);$('#savedSort').addEventListener('change',renderSaved);$('#enquirySearch').addEventListener('input',renderEnquiries);$('#enquiryFilter').addEventListener('change',renderEnquiries);
   const themeToggle=$('#themeToggle');
   function setTheme(theme){
-    document.body.classList.toggle('dark-theme',theme==='dark');
+    document.body.classList.toggle('dark-theme',theme==='dark');document.documentElement.setAttribute('data-theme', theme);
     themeToggle.setAttribute('aria-pressed',String(theme==='dark'));
     const isDark = theme==='dark';
     $('#themeIcon').innerHTML=isDark
@@ -98,10 +98,10 @@
       : '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
     $('#themeLabel').textContent=isDark?'Light mode':'Dark mode';
     localStorage.setItem('rentora-admin-theme',theme);
-    localStorage.setItem('rentora-user-theme',theme);
+    localStorage.setItem('rentora-user-theme',theme);localStorage.setItem('rentora-theme',theme);
   }
   themeToggle.addEventListener('click',()=>setTheme(document.body.classList.contains('dark-theme')?'light':'dark'));
-  setTheme(localStorage.getItem('rentora-admin-theme')||localStorage.getItem('rentora-user-theme')||'light');
+  setTheme(localStorage.getItem('rentora-admin-theme')||localStorage.getItem('rentora-user-theme')||localStorage.getItem('rentora-theme')||'light');
   function setDirection(direction){document.documentElement.dir=direction;$$('.direction-button').forEach(b=>{const active=b.dataset.direction===direction;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active))});localStorage.setItem('rentora-admin-direction',direction);localStorage.setItem('rentora-user-direction',direction)}$$('.direction-button').forEach(b=>b.addEventListener('click',()=>setDirection(b.dataset.direction)));setDirection(localStorage.getItem('rentora-admin-direction')||localStorage.getItem('rentora-user-direction')||'ltr');
   const profileForm=$('#profileForm');const profileKeys=['fullName','email','phone','contactMethod','location','notes'];try{const savedProfile=JSON.parse(localStorage.getItem('rentora-user-profile')||'{}');profileKeys.forEach(k=>{if(savedProfile[k]!==undefined&&$('#'+k))$('#'+k).value=savedProfile[k]});}catch{}
   profileForm.addEventListener('submit',e=>{e.preventDefault();const data={};profileKeys.forEach(k=>data[k]=$('#'+k).value);localStorage.setItem('rentora-user-profile',JSON.stringify(data));$('#profileNameHeading').textContent=data.fullName||'Resident User';$$('.profile-copy strong').forEach(el=>el.textContent=data.fullName||'Resident User');toast('Profile saved in this browser.');});

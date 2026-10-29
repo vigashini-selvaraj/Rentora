@@ -462,7 +462,7 @@ const directionButtons = document.querySelectorAll('.direction-button');
 
 function setTheme(theme) {
   const isDark = theme === 'dark';
-  document.body.classList.toggle('dark-theme', isDark);
+  document.body.classList.toggle('dark-theme', isDark); document.documentElement.setAttribute('data-theme', theme);
   if (themeToggle) {
     themeToggle.setAttribute('aria-pressed', String(isDark));
     themeToggle.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
@@ -475,7 +475,7 @@ function setTheme(theme) {
   if (themeLabel) {
     themeLabel.textContent = isDark ? 'Light mode' : 'Dark mode';
   }
-  try { localStorage.setItem('rentora-admin-theme', theme); } catch (error) {}
+  try { localStorage.setItem('rentora-admin-theme', theme); localStorage.setItem('rentora-theme', theme); } catch (error) {}
 }
 
 function setDirection(direction) {
@@ -491,7 +491,7 @@ function setDirection(direction) {
 let savedTheme = 'light';
 let savedDirection = 'ltr';
 try {
-  savedTheme = localStorage.getItem('rentora-admin-theme') || 'light';
+  savedTheme = localStorage.getItem('rentora-admin-theme') || localStorage.getItem('rentora-theme') || 'light';
   savedDirection = localStorage.getItem('rentora-admin-direction') || 'ltr';
 } catch (error) {}
 setTheme(savedTheme);

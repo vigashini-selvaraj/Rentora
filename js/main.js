@@ -2,8 +2,16 @@
   const root = document.documentElement;
   const savedTheme = localStorage.getItem('rentora-theme');
   const savedDirection = localStorage.getItem('rentora-direction');
-  if (savedTheme === 'dark' || savedTheme === 'light') root.dataset.theme = savedTheme;
-  if (savedDirection === 'rtl' || savedDirection === 'ltr') root.dir = savedDirection;
+  if (savedTheme === 'dark' || savedTheme === 'light') {
+    root.dataset.theme = savedTheme;
+  } else if (!root.dataset.theme) {
+    root.dataset.theme = 'light';
+  }
+  if (savedDirection === 'rtl' || savedDirection === 'ltr') {
+    root.dir = savedDirection;
+  } else if (!root.dir) {
+    root.dir = 'ltr';
+  }
 
   async function loadSharedComponents() {
     const navbarTarget = document.getElementById('navbar');
@@ -49,6 +57,8 @@
       targetPage = 'blog.html';
     } else if (currentPage === 'property-detail.html') {
       targetPage = 'properties.html';
+    } else if (currentPage === 'admin-dashboard.html') {
+      targetPage = 'user-dashboard.html';
     } else if (currentPage === '' || currentPage === '/') {
       targetPage = 'index.html';
     }
@@ -89,98 +99,144 @@
       });
     }
 
-    // Hamburger menu toggle for mobile
-    const menuToggle = document.querySelector('.menu-toggle');
-    const mobileNav = document.querySelector('.mobile-nav');
-    if (menuToggle && mobileNav) {
-      menuToggle.addEventListener('click', (event) => {
-        event.stopPropagation();
-        const isOpen = menuToggle.getAttribute('aria-expanded') === 'true';
-        const nextState = !isOpen;
-        menuToggle.setAttribute('aria-expanded', String(nextState));
-        menuToggle.setAttribute('aria-label', nextState ? 'Close navigation menu' : 'Open navigation menu');
-        mobileNav.hidden = !nextState;
-      });
+    // Robust mobile navigation toggle (delegated on document for complete reliability across all pages)
+    if (!window.__rentoraNavInitialized) {
+      window.__rentoraNavInitialized = true;
 
-      // Close mobile nav when clicking outside header
       document.addEventListener('click', (event) => {
+        const toggle = event.target.closest('.menu-toggle');
+        if (toggle) {
+          event.preventDefault();
+          event.stopPropagation();
+          const mobileNav = document.querySelector('.mobile-nav') || document.getElementById('mobile-nav');
+          if (!mobileNav) return;
+          const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+          const nextState = !isOpen;
+          toggle.setAttribute('aria-expanded', String(nextState));
+          toggle.setAttribute('aria-label', nextState ? 'Close navigation menu' : 'Open navigation menu');
+          mobileNav.hidden = !nextState;
+          mobileNav.classList.toggle('is-open', nextState);
+          return;
+        }
+
+        // Close mobile nav when clicking outside header
         if (!event.target.closest('.site-header')) {
-          mobileNav.hidden = true;
-          menuToggle.setAttribute('aria-expanded', 'false');
-          menuToggle.setAttribute('aria-label', 'Open navigation menu');
+          const mobileNav = document.querySelector('.mobile-nav') || document.getElementById('mobile-nav');
+          const toggle = document.querySelector('.menu-toggle');
+          if (mobileNav && (!mobileNav.hidden || mobileNav.classList.contains('is-open'))) {
+            mobileNav.hidden = true;
+            mobileNav.classList.remove('is-open');
+            if (toggle) {
+              toggle.setAttribute('aria-expanded', 'false');
+              toggle.setAttribute('aria-label', 'Open navigation menu');
+            }
+          }
         }
       });
 
       // Close mobile nav on ESC
       document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && !mobileNav.hidden) {
-          mobileNav.hidden = true;
-          menuToggle.setAttribute('aria-expanded', 'false');
-          menuToggle.setAttribute('aria-label', 'Open navigation menu');
-          menuToggle.focus();
+        if (event.key === 'Escape') {
+          const mobileNav = document.querySelector('.mobile-nav') || document.getElementById('mobile-nav');
+          const toggle = document.querySelector('.menu-toggle');
+          if (mobileNav && (!mobileNav.hidden || mobileNav.classList.contains('is-open'))) {
+            mobileNav.hidden = true;
+            mobileNav.classList.remove('is-open');
+            if (toggle) {
+              toggle.setAttribute('aria-expanded', 'false');
+              toggle.setAttribute('aria-label', 'Open navigation menu');
+              toggle.focus();
+            }
+          }
         }
       });
 
-      // Close mobile nav when clicking any link
-      mobileNav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
-        mobileNav.hidden = true;
-        menuToggle.setAttribute('aria-expanded', 'false');
-        menuToggle.setAttribute('aria-label', 'Open navigation menu');
-      }));
-
-      // Auto close on viewport resize to desktop width
+      // Auto close on viewport resize to desktop width (> 900px)
       window.addEventListener('resize', () => {
-        if (window.innerWidth > 992) {
-          mobileNav.hidden = true;
-          menuToggle.setAttribute('aria-expanded', 'false');
-          menuToggle.setAttribute('aria-label', 'Open navigation menu');
+        if (window.innerWidth > 900) {
+          const mobileNav = document.querySelector('.mobile-nav') || document.getElementById('mobile-nav');
+          const toggle = document.querySelector('.menu-toggle');
+          if (mobileNav) {
+            mobileNav.hidden = true;
+            mobileNav.classList.remove('is-open');
+          }
+          if (toggle) {
+            toggle.setAttribute('aria-expanded', 'false');
+            toggle.setAttribute('aria-label', 'Open navigation menu');
+          }
         }
+      });
+    }
+
+    // Close mobile nav when clicking any link inside it
+    const activeMobileNav = document.querySelector('.mobile-nav');
+    const activeToggle = document.querySelector('.menu-toggle');
+    if (activeMobileNav && activeToggle) {
+      activeMobileNav.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          activeMobileNav.hidden = true;
+          activeMobileNav.classList.remove('is-open');
+          activeToggle.setAttribute('aria-expanded', 'false');
+          activeToggle.setAttribute('aria-label', 'Open navigation menu');
+        });
       });
     }
   }
 
   function initializePreferences() {
-    const themeToggle = document.querySelector('.theme-toggle');
-    const directionToggle = document.querySelector('.direction-toggle');
-
     function updateThemeButton() {
-      if (!themeToggle) return;
       const isDark = root.dataset.theme === 'dark';
-      // When dark: button shows Sun icon to switch to light theme
-      // When light: button shows Moon icon to switch to dark theme
-      themeToggle.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
-      themeToggle.setAttribute('title', isDark ? 'Switch to light theme' : 'Switch to dark theme');
+      document.querySelectorAll('.theme-toggle').forEach(btn => {
+        btn.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
+        btn.setAttribute('title', isDark ? 'Switch to light theme' : 'Switch to dark theme');
+      });
     }
 
     function updateDirectionButton() {
-      if (!directionToggle) return;
       const rtl = root.dir === 'rtl';
-      const label = directionToggle.querySelector('.direction-label');
-      if (label) label.textContent = rtl ? 'RTL' : 'LTR';
-      directionToggle.setAttribute('aria-label', rtl ? 'Switch to left-to-right layout' : 'Switch to right-to-left layout');
-      directionToggle.setAttribute('title', rtl ? 'Switch to LTR' : 'Switch to RTL');
-    }
-
-    if (themeToggle) {
-      updateThemeButton();
-      themeToggle.addEventListener('click', () => {
-        const current = root.dataset.theme === 'dark' ? 'dark' : 'light';
-        const next = current === 'dark' ? 'light' : 'dark';
-        root.dataset.theme = next;
-        localStorage.setItem('rentora-theme', next);
-        updateThemeButton();
+      document.querySelectorAll('.direction-toggle').forEach(btn => {
+        const label = btn.querySelector('.direction-label');
+        if (label) label.textContent = rtl ? 'RTL' : 'LTR';
+        btn.setAttribute('aria-label', rtl ? 'Switch to left-to-right layout' : 'Switch to right-to-left layout');
+        btn.setAttribute('title', rtl ? 'Switch to LTR' : 'Switch to RTL');
       });
     }
 
-    if (directionToggle) {
-      updateDirectionButton();
-      directionToggle.addEventListener('click', () => {
-        root.dir = root.dir === 'rtl' ? 'ltr' : 'rtl';
-        localStorage.setItem('rentora-direction', root.dir);
-        updateDirectionButton();
-      });
-    }
+    updateThemeButton();
+    updateDirectionButton();
   }
+
+  // Delegated listeners for theme & direction toggle buttons
+  document.addEventListener('click', (event) => {
+    const themeBtn = event.target.closest('.theme-toggle');
+    if (themeBtn) {
+      const current = root.dataset.theme === 'dark' ? 'dark' : 'light';
+      const next = current === 'dark' ? 'light' : 'dark';
+      root.dataset.theme = next;
+      localStorage.setItem('rentora-theme', next);
+      const isDark = next === 'dark';
+      document.querySelectorAll('.theme-toggle').forEach(btn => {
+        btn.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
+        btn.setAttribute('title', isDark ? 'Switch to light theme' : 'Switch to dark theme');
+      });
+      return;
+    }
+
+    const dirBtn = event.target.closest('.direction-toggle');
+    if (dirBtn) {
+      const next = root.dir === 'rtl' ? 'ltr' : 'rtl';
+      root.dir = next;
+      localStorage.setItem('rentora-direction', next);
+      const rtl = next === 'rtl';
+      document.querySelectorAll('.direction-toggle').forEach(btn => {
+        const label = btn.querySelector('.direction-label');
+        if (label) label.textContent = rtl ? 'RTL' : 'LTR';
+        btn.setAttribute('aria-label', rtl ? 'Switch to left-to-right layout' : 'Switch to right-to-left layout');
+        btn.setAttribute('title', rtl ? 'Switch to LTR' : 'Switch to RTL');
+      });
+      return;
+    }
+  });
 
   function initializeStickyHeader() {
     const header = document.querySelector('.site-header');
@@ -341,8 +397,14 @@
     updateDeckPositions();
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
+  function boot() {
     loadSharedComponents();
     initializeResidenceDeck();
-  });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
 })();

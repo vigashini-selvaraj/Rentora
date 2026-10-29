@@ -1097,6 +1097,39 @@ body {
   color: var(--ct-green-light);
 }
 
+/* Regional Headquarters CTA Buttons Dark Mode Visibility */
+[data-theme="dark"] .location-form-link {
+  background: var(--ct-green);
+  color: #ffffff !important;
+  box-shadow: 0 4px 16px rgba(28, 138, 104, 0.4);
+}
+
+[data-theme="dark"] .location-form-link:hover {
+  background: var(--ct-green-hover);
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .location-form-link span {
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .location-form-link svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+[data-theme="dark"] .map-directions {
+  background: #112533;
+  color: #4ade80 !important;
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+[data-theme="dark"] .map-directions:hover {
+  background: rgba(28, 138, 104, 0.25);
+  border-color: #4ade80;
+  color: #ffffff !important;
+}
+
 /* ==========================================================================
    5. EXPANDED FAQS SECTION (6-7 Realistic Q&As)
    ========================================================================== */

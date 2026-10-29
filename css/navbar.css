@@ -103,7 +103,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(12px, 1.8vw, 26px);
+  gap: clamp(10px, 1.4vw, 22px);
   flex: 1;
 }
 
@@ -202,6 +202,56 @@
 
 .theme-toggle:hover svg {
   transform: rotate(18deg) scale(1.08);
+}
+
+/* Header CTA Button */
+.nav-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 18px;
+  border-radius: 10px;
+  background: var(--green);
+  color: #ffffff !important;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(45, 138, 104, 0.28);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  flex-shrink: 0;
+}
+
+.nav-cta-btn:hover {
+  background: var(--green-dark);
+  transform: translateY(-1.5px);
+  box-shadow: 0 6px 18px rgba(45, 138, 104, 0.38);
+}
+
+.nav-cta-btn:active {
+  transform: translateY(0);
+}
+
+.nav-cta-btn svg {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.2s ease;
+}
+
+.nav-cta-btn:hover svg {
+  transform: translateX(3px);
+}
+
+[dir="rtl"] .nav-cta-btn:hover svg {
+  transform: translateX(-3px);
 }
 
 /* RTL / LTR Toggle Button */
@@ -354,13 +404,14 @@
   stroke-linecap: round;
   stroke-linejoin: round;
   display: block !important;
+  pointer-events: none !important;
 }
 
-.menu-open-icon {
+.menu-toggle .menu-open-icon {
   display: block !important;
 }
 
-.menu-close-icon {
+.menu-toggle .menu-close-icon {
   display: none !important;
 }
 
@@ -392,8 +443,9 @@
   }
 }
 
+.mobile-nav.is-open,
 .mobile-nav:not([hidden]) {
-  display: block;
+  display: block !important;
 }
 
 .mobile-nav[hidden] {
@@ -554,17 +606,23 @@
 
 @media (max-width: 1100px) and (min-width: 901px) {
   .nav-shell {
-    width: calc(100% - 36px);
-    gap: 14px;
+    width: calc(100% - 32px);
+    gap: 12px;
   }
   .desktop-nav {
-    gap: 12px;
+    gap: clamp(8px, 1.1vw, 14px);
   }
   .desktop-nav a {
     font-size: 12px;
   }
   .brand-copy strong {
-    font-size: 20px;
+    font-size: 19px;
+  }
+  .nav-cta-btn {
+    height: 38px;
+    padding: 0 14px;
+    font-size: 12px;
+    gap: 6px;
   }
 }
 
@@ -585,15 +643,21 @@
     display: none !important;
   }
   
-  /* Show Theme toggle, RTL toggle, and Hamburger button on mobile header */
   .direction-toggle {
     display: inline-flex !important;
     visibility: visible !important;
   }
-  
+
   .theme-toggle {
     display: inline-flex !important;
     visibility: visible !important;
+  }
+
+  .nav-cta-btn {
+    height: 38px;
+    padding: 0 14px;
+    font-size: 12px;
+    gap: 6px;
   }
   
   .menu-toggle {
@@ -614,6 +678,18 @@
   
   .mobile-nav:not([hidden]) {
     display: block !important;
+  }
+}
+
+/* Mobile Screens (<= 576px): Remove Get Started, keep hamburger */
+@media (max-width: 576px) {
+  .nav-cta-btn {
+    display: none !important;
+  }
+  .menu-toggle {
+    display: inline-flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
   }
 }
 
@@ -662,6 +738,11 @@
   .icon-button svg {
     width: 17px !important;
     height: 17px !important;
+  }
+
+  /* Remove Get Started on 360px/mobile as requested */
+  .nav-cta-btn {
+    display: none !important;
   }
 
   .direction-toggle {

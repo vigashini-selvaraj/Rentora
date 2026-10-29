@@ -12,6 +12,7 @@
       <a href="service.html" data-page="service.html">Service</a>
       <a href="blog.html" data-page="blog.html">Blog</a>
       <a href="contact.html" data-page="contact.html">Contact</a>
+      <a href="user-dashboard.html" data-page="user-dashboard.html">Dashboard</a>
     </nav>
     <div class="nav-tools">
       <button class="direction-toggle" type="button" aria-label="Switch to right-to-left layout" title="Toggle LTR / RTL">
@@ -38,6 +39,11 @@
         </div>
       </div>
 
+      <a href="register.html" class="nav-cta-btn">
+        <span>Get Started</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+
       <button class="icon-button menu-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-nav">
         <svg class="menu-open-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
         <svg class="menu-close-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
@@ -54,6 +60,7 @@
         <a href="service.html" data-page="service.html">Service</a>
         <a href="blog.html" data-page="blog.html">Blog</a>
         <a href="contact.html" data-page="contact.html">Contact</a>
+        <a href="user-dashboard.html" data-page="user-dashboard.html">Dashboard</a>
       </div>
 
       <div class="mobile-profile-section">

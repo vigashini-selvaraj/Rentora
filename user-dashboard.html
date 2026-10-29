@@ -23,7 +23,6 @@
     <small style="font: 800 8px 'DM Sans', sans-serif; letter-spacing: 1.3px; color: var(--muted); margin-top: 2px;">PROPERTY MANAGEMENT</small>
   </span>
 </a>
-<div class="brand-preferences"><div class="direction-toggle"><button class="preference-button direction-button active" data-direction="ltr" aria-pressed="true">LTR</button><button class="preference-button direction-button" data-direction="rtl" aria-pressed="false">RTL</button></div><button class="preference-button theme-toggle" id="themeToggle" aria-pressed="false"><span id="themeIcon">☾</span><span id="themeLabel">Dark mode</span></button></div>
 <div class="workspace-label">MY ACCOUNT</div><nav class="side-nav" aria-label="Customer navigation">
   <button class="nav-item active" data-view="overview"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span>Overview</button>
   <button class="nav-item" data-view="saved"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>Saved properties <span class="nav-count" id="savedCount">3</span></button>
@@ -53,6 +52,21 @@
   </button>
   <div class="breadcrumb"><span>My account</span><span class="crumb-slash">/</span><strong id="pageCrumb">Overview</strong></div>
   <div class="topbar-actions">
+    <div class="direction-toggle" role="group" aria-label="Text direction">
+      <button type="button" class="preference-button direction-button active" data-direction="ltr" aria-pressed="true">LTR</button>
+      <button type="button" class="preference-button direction-button" data-direction="rtl" aria-pressed="false">RTL</button>
+    </div>
+    <button type="button" class="preference-button theme-toggle" id="themeToggle" aria-label="Switch to dark theme" aria-pressed="false">
+      <span id="themeIcon"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
+      <span id="themeLabel">Dark mode</span>
+    </button>
+    <div class="top-profile-badge">
+      <img class="avatar user-avatar" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=240&q=80" alt="Resident User">
+      <div class="profile-copy">
+        <strong id="topProfileName">Resident User</strong>
+        <small>Resident</small>
+      </div>
+    </div>
     <a class="secondary-button" href="index.html" style="display: inline-flex; align-items: center; gap: 7px; text-decoration: none; padding: 8px 12px; font-size: 11px; font-weight: 700; border-radius: 8px; border: 1px solid var(--line); background: var(--surface);">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
       <span>Back to Website</span>

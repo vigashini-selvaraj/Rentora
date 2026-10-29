@@ -7,7 +7,7 @@
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/admin-dashboard.css">
   <link rel="stylesheet" href="css/framer-motion.css">
   <script src="js/admin-dashboard.js" defer></script>
@@ -27,18 +27,7 @@
         </span>
       </a>
 
-      <div class="brand-preferences" aria-label="Display preferences">
-        <div class="direction-toggle" role="group" aria-label="Text direction">
-          <button type="button" class="preference-button direction-button active" data-direction="ltr" aria-pressed="true">LTR</button>
-          <button type="button" class="preference-button direction-button" data-direction="rtl" aria-pressed="false">RTL</button>
-        </div>
-        <button type="button" class="preference-button theme-toggle" id="themeToggle" aria-label="Switch to dark theme" aria-pressed="false">
-          <span class="theme-icon" id="themeIcon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-          </span>
-          <span id="themeLabel">Dark mode</span>
-        </button>
-      </div>
+
 
       <div class="workspace-label">WORKSPACE</div>
       <nav class="side-nav" aria-label="Admin navigation">
@@ -137,6 +126,26 @@
           <strong id="pageCrumb">Overview</strong>
         </div>
         <div class="topbar-actions">
+          <div class="direction-toggle" role="group" aria-label="Text direction">
+            <button type="button" class="preference-button direction-button active" data-direction="ltr" aria-pressed="true">LTR</button>
+            <button type="button" class="preference-button direction-button" data-direction="rtl" aria-pressed="false">RTL</button>
+          </div>
+
+          <button type="button" class="preference-button theme-toggle" id="themeToggle" aria-label="Switch to dark theme" aria-pressed="false">
+            <span class="theme-icon" id="themeIcon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </span>
+            <span id="themeLabel">Dark mode</span>
+          </button>
+
+          <div class="top-profile-badge">
+            <span class="avatar admin-avatar">RA</span>
+            <div class="profile-copy">
+              <strong>Rentora Admin</strong>
+              <small>Administrator</small>
+            </div>
+          </div>
+
           <a class="secondary-button" href="index.html" style="display: inline-flex; align-items: center; gap: 7px; text-decoration: none;">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
             <span>Live Website</span>

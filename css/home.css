@@ -250,6 +250,28 @@
 [data-theme="dark"] .search-field input,
 [data-theme="dark"] .search-field select {
   color: #f8fafc;
+  color-scheme: dark;
+}
+
+.search-field select option {
+  background: #ffffff;
+  color: var(--navy);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 6px 10px;
+}
+
+[data-theme="dark"] .search-field select option,
+[data-theme="dark"] #hero-type option,
+[data-theme="dark"] #hero-budget option {
+  background-color: #122834 !important;
+  color: #f8fafc !important;
+}
+
+[data-theme="dark"] #hero-type,
+[data-theme="dark"] #hero-budget {
+  color: #f8fafc !important;
+  color-scheme: dark;
 }
 
 .search-field input::placeholder {
